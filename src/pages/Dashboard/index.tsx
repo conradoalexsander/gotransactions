@@ -119,6 +119,7 @@ const Dashboard: React.FC = () => {
                     formattedValue,
                     type,
                     formattedDate,
+                    category,
                   } = transaction;
                   return (
                     <tr key={id}>
@@ -126,7 +127,7 @@ const Dashboard: React.FC = () => {
                       <td className={type}>
                         {`${type === 'outcome' ? '- ' : ''} ${formattedValue}`}
                       </td>
-                      <td>{type}</td>
+                      <td>{category.title}</td>
                       <td>{formattedDate}</td>
                     </tr>
                   );

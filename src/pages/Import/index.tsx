@@ -23,12 +23,27 @@ const Import: React.FC = () => {
   const history = useHistory();
 
   async function handleUpload(): Promise<void> {
-    // const data = new FormData();
+    const data = new FormData();
 
     // TODO
 
     try {
       // await api.post('/transactions/import', data);
+
+      if (uploadedFiles.length > 0) {
+        uploadedFiles.forEach(uploadFile => {
+          const { file } = uploadFile;
+          data.append('file', file);
+        });
+
+        const response = await api.post('/transactions/import', data);
+        if (response.status === 200) {
+          console.log('Ponto de coleta criado!');
+        }
+      }
+
+      // alert('upload realizado com sucesso');
+      history.push('/import');
     } catch (err) {
       // console.log(err.response.error);
     }
@@ -36,6 +51,17 @@ const Import: React.FC = () => {
 
   function submitFile(files: File[]): void {
     // TODO
+    files.forEach(file => {
+      const { name, size } = file;
+      console.log({ file, name, size });
+
+      const uploadedFile: FileProps = {
+        file,
+        name,
+        readableSize: filesize(size, { bits: true }),
+      };
+      setUploadedFiles([uploadedFile]);
+    });
   }
 
   return (
